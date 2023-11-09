@@ -8,17 +8,18 @@ const {
 
 const  catchAsync  = require("../utils/catchAsync");
 const {validarComentario} = require("../validations/validations");
+const {estaLogeado,esAutorComentario} = require("../middlewares");
 
 routerComentarios
     .route("/:id")
-    .put(catchAsync(editarComentario))
-    .delete(catchAsync(eliminarComentario))
+    .put(estaLogeado,esAutorComentario,catchAsync(editarComentario))
+    .delete(estaLogeado,esAutorComentario,catchAsync(eliminarComentario))
     
     
 
 routerComentarios
     .route("/")
-    .post(validarComentario, catchAsync(crearComentario))
+    .post(estaLogeado,validarComentario, catchAsync(crearComentario))
    
 
  module.exports = routerComentarios

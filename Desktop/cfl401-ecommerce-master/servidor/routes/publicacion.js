@@ -10,17 +10,18 @@ const {
 
 const catchAsync = require("../utils/catchAsync");
 const {validarPublicacion} = require("../validations/validations");
+const {estaLogeado,esAutorPublicacion} = require("../middlewares");
 
 
 routerPublicacion
     .route("/")
-    .get(catchAsync(verPublicaciones))
-    .post(validarPublicacion, catchAsync(crearPublicacion));
+    .get(estaLogeado, catchAsync(verPublicaciones))
+    .post(estaLogeado,validarPublicacion,catchAsync(crearPublicacion));
 
 routerPublicacion
     .route("/:id")
-    .put(catchAsync(editarPublicacion))
-    .delete(catchAsync(eliminarPublicacion))
+    .put(estaLogeado,esAutorPublicacion,catchAsync(editarPublicacion))
+    .delete(estaLogeado,esAutorPublicacion,catchAsync(eliminarPublicacion))
     .get(catchAsync(verPublicacion));
 
 module.exports = routerPublicacion;

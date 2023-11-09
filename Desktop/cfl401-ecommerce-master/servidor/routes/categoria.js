@@ -10,16 +10,17 @@ const {
 
 const catchAsync = require("../utils/catchAsync");
 const {validarCategoria} = require("../validations/validations"); 
+const {estaLogeado, esAdmin} = require("../middlewares");
 
 routerCategoria
     .route("/")
     .get(catchAsync(verCategorias))
-    .post(validarCategoria,catchAsync(crearCategoria));
+    .post(estaLogeado,esAdmin,validarCategoria,catchAsync(crearCategoria));
 
 routerCategoria
     .route("/:id")
-    .put(catchAsync(editarCategoria))
-    .delete(catchAsync(eliminarCategoria))
+    .put(estaLogeado,esAdmin,catchAsync(editarCategoria))
+    .delete(estaLogeado,esAdmin,catchAsync(eliminarCategoria))
     .get(catchAsync(verCategoria));
 
 module.exports = routerCategoria;
